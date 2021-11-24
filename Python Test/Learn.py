@@ -179,7 +179,7 @@ def GreedyPart4_Answer2():
     return print(result)
 """
 
-#  구현
+"""#  구현
 # 완전 탐색  : 모든 경우의 수를 주저 없이 다 계산 하는 해결 방법
 # - 100만개 이하일 경우 유용
 # 시뮬레이션 : 제시한 알고리즘을 한 단계씩 차례대로 직접 수행
@@ -338,4 +338,157 @@ def implement_Part3():
             else:
                 break
     return print(result)
+"""
+
+"""# 자료구조 기초
+# - 탐색(Search) : 많은 양의 데이터 중에서 원하는 데이터를 찾는 과정
+# - 자료구조(Data Structure) : 데이터를 표현하고 관리하고 처리하기 위한 구조
+#   - 오버플로(Overflow) : 특정 자료구조의 데이터 크기가 가득찬 상태에서 삽입 연산을 할 때 발생
+#   - 언더플로(Underflow) : 특정 자료구조의 데이터가 없는데 삭제 연산을 할 때 발생
+
+# 스택(Stack) - 선입후출 First In Last Out
+def Stack():
+    stack = []
+
+    stack.append(1)
+    stack.append(2)
+    stack.append(3)
+    stack.pop()
+    stack.append(4)
+    stack.append(5)
+    stack.pop()
+
+    print(stack)       # 최하단 원소부터 출력
+    # 1, 2, 4
+    print(stack[::-1]) # 최상단 원소부터 출력
+    # 4, 2, 1
+
+# 큐(Queue) - 선입선출 First In First Out
+from collections import deque
+def Queue():
+    queue = deque()
+    queue.append(1)
+    queue.append(2)
+    queue.append(3)
+    queue.popleft()
+    queue.append(4)
+    queue.append(5)
+    queue.popleft()
     
+    print(queue)    # 먼저 들어온 순서대로 출력
+    # 3, 4, 5
+    queue.reverse() # 역순 정렬
+    print(queue)    # 마지막 순서대로 출력
+    # 5, 4, 3
+    #리스트 자료형으로 사용 시
+    list_queue = list(queue)
+
+# 재귀함수(Recusive Function) - 자기자신 호출 함수
+def Recusive_Function():
+    print('재귀 함수 호출')
+    Recusive_Function()
+
+# 재귀함수 종료 조건, 10번 호출 시 종료
+def Recusive_Function(i):
+    if i == 10:
+        return
+    recursive_function(i + 1)
+#Recusive_Function(1)
+# -> 재귀함수는 스택 구조와 동일
+
+# 팩토리얼(Factorial) - 재귀함수 대표 예제
+# - n! = 1 x 2 x ... (n - 1) x n
+
+# 반복문 구현
+def factorial_iterative(n):
+    result = 1
+    # 1 ~ n 곱하기
+    for i in range(1, n + 1):
+        result *= i
+    return result
+
+# 재귀함수 구현
+def factorial_recursive(n):
+    if n <= 1: # n이 1 이하인 경우 반환
+        return 1
+    # n! = n * (n - 1) 코드로 작성하기
+    return n * factorial_recursive(n - 1)
+
+# 출력
+#factorial_iterative(5) # 반복문 구현
+#factorial_recursive(5) # 재귀함수 구현
+"""
+
+# DFS / BFS
+# - 인접 행렬(Adjacency Matrix) : 2차원 배열로 그래프 연결 관계 표현
+#   - 2차원 배열에 각 노드가 연결된 형태를 기록하는 방식
+# - 인접 리스트(Adjacency list) : 리스트로 그래프 연결 관계 표현
+
+# DFS(Depth-First Search) - 깊이 우선 탐색, 주로 스택
+# - 데이터 개수 N개 -> O(N) 시간 소요
+
+# 인접 행렬 예시
+def Adjacency_Matrix():
+    INF = 99999999
+    graph = [[0, 7, 5],
+             [7, 0, INF],
+             [5, INF, 0] ]
+    print(graph)
+
+# 인접 리스트 예시
+def Adjacency_List():
+    # 행이 3개인 2차원 리스트로 인접 리스트 표현
+    graph = [[] for _ in rage(3)]
+
+    # 노드 0에 연결된 노드 정보 저장(노드, 거리)
+    graph[0].append((1, 7))
+    graph[0].append((2, 5))
+
+    # 노드 1에 연결된 노드 정보 저장(노드, 거리)
+    graph[1].append((0, 7))
+
+    # 노드 2에 연결된 노드 정보 저장(노드, 거리)
+    graph[2].append((0, 5))
+
+    print(graph)
+
+# 특징
+# 메모리 사용 
+# - 인접 행렬 : 노드간 모든 관계를 저장
+#               노드 개수 많을수록 메모리 낭비
+# - 리스트 행렬 : 연결된 노드만 저장
+#                 특정한 두 노드 연결에 대한 정보 획득 속도가 느림
+
+# DFS 예제
+def DFS_ex():
+    # DFS 메서드 정의
+    def dfs(graph, v, visited):
+        # 현재 노드를 방문 처리
+        visited[v] = True
+        print(v, end=' ')
+        # 현재 노드와 연결된 다른 노드를 재귀적으로 방문
+        for i in graph[v]:
+            if not visited[i]:
+                dfs(graph, i, visited)
+
+    # 각 노드가 연결된 정보를 리스트 자료형으로 표현(2차원 리스트)
+    graph = [[],
+             [2, 3, 8],
+             [1, 7],
+             [1, 4, 5],
+             [3, 5],
+             [3, 4],
+             [7],
+             [2, 6, 8],
+             [1, 7]]
+
+    # 각 노드가 방문된 정보를 리스트 자료형으로 표현(1차원 리스트)
+    visited = [False] * 9
+
+    # 정의된 DFS 함수 호출
+    dfs(graph, 1, visited)
+
+# BFS(Breadth First Search) - 너비 우선 탐색, 주로 큐
+# - 데이터 개수 N개 -> O(N) 시간 소요
+# - deque 라이브러리 사용 추천
+# - 실제 수행시간 빠르기 BFS > DFS 
